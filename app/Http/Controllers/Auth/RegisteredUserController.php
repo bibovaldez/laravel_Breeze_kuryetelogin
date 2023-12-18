@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,37 +33,48 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
-        // "fname" => "JohnRey"
-        // "mname" => "Espiritu"
-        // "lname" => "Valdez"
-        // "phone" => "09214874873"
-        // "province" => "Isabela"
-        // "municipality" => "Burgos"
-        // "barangay" => "Raniag"
-        // "MID" => "21"
-        // "PIN" => "12"
-        // "email" => "bibovaldez2002@gmail.com"
-        // "password" => "11111111"
-        // "password_confirmation" => "11111111"
+        // dd($request->all());
 
         $validatedData = $request->validate([
             'fname' => 'required|string|max:255|regex:/^[a-zA-Z]+$/u',
-            'mname' => 'required|string|max:255',
-            'lname' => 'required|string|max:255',
+            'mname' => 'required|string|max:255|regex:/^[a-zA-Z]+$/u',
+            'lname' => 'required|string|max:255|regex:/^[a-zA-Z]+$/u',
             'phone' => 'required|string|max:255',
             'province' => 'required|string|max:255',
             'municipality' => 'required|string|max:255',
             'barangay' => 'required|string|max:255',
-            // validate if the MID is existing in the meter table 
-            'MID' =>'required',
-
-            // 'email' => 'required|string|email|max:255|unique:users',
-            // 'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'MID' =>[
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    $meter = DB::table('meter')->where('MID', $value)->first();
+                    
+                    if (!$meter) {
+                        $fail('Invalid Credentials. Please check your MID and PIN.');
+                    }
+                    else if($meter->PIN != request('PIN')){
+                        $fail('Invalid Credentials. Please check your MID and PIN.');
+                    }
+                },
+            ],
+            'PIN' => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    $meter = DB::table('meter')->where('MID', request('MID'))->first();
+                    if ($meter) {
+                        if ($meter->PIN != $value) {
+                            $fail('');
+                        }
+                    }
+                },
+            ],
+            'email' => 'required|string|email|max:255|unique:users',
+            'username' => 'required|string|max:255|unique:users',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
-
-        dd($request->all());
 
         $user = User::create([
             'firstName' => $validatedData['fname'],
@@ -73,6 +85,7 @@ class RegisteredUserController extends Controller
             'Municipality' => $validatedData['municipality'],
             'Barangay' => $validatedData['barangay'],
             'F_MID' => $validatedData['MID'],
+            'username'=> $validatedData['username'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);

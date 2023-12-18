@@ -36,13 +36,38 @@
 
         </div>
 
+        <!-- Meter form -->
+        <div x-show="meterForm">
+            <!-- Meter Number -->
+            <div class="mt-4">
+                <x-input-label for="MID" :value="__('Meter Number')" />
+                <x-text-input id="MID" class="block mt-1 w-full" type="text" name="MID" :value="old('MID')"
+                    autofocus />
+                @error('MID')
+                    <span class="text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Meter PIN -->
+            <div class="mt-4">
+                <x-input-label for="PIN" :value="__('Meter PIN')" />
+                <x-text-input id="PIN" class="block mt-1 w-full" type="text" name="PIN" :value="old('PIN')"
+                    autofocus />
+                @error('PIN')
+                    <span class="text-red-600">{{ $message }}</span>
+                @enderror
+            </div>
+
+        </div>
+
         <!-- Address form -->
         <div x-show="addressForm">
             <!-- Province Dropdown -->
             <div class="mt-4">
                 <x-input-label for="phone" :value="__('Province')" />
                 <select id="provinceSelect" name="province"
-                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full">
+                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full"
+                    required>
                     <option value="" disabled selected>Select Province</option>
                 </select>
             </div>
@@ -51,7 +76,8 @@
             <div class="mt-4">
                 <x-input-label for="phone" :value="__('Municipality')" />
                 <select id="municipalitySelect" name="municipality"
-                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full">
+                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full"
+                    required>
                     <option value="" disabled selected>Select Municipality</option>
                 </select>
             </div>
@@ -60,39 +86,28 @@
             <div class="mt-4">
                 <x-input-label for="phone" :value="__('Barangay')" />
                 <select id="barangaySelect" name="barangay"
-                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full">
+                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full"
+                    required>
                     <option value="" disabled selected class="text-gray-400">Select Barangay</option>
                 </select>
             </div>
         </div>
 
-        <!-- Meter form -->
-        <div x-show="meterForm">
-            <!-- Meter Number -->
-            <div class="mt-4">
-                <x-input-label for="MID" :value="__('Meter Number')" />
-                <x-text-input id="MID" class="block mt-1 w-full" type="text" name="MID" :value="old('MID')"
-                    autofocus />
-                <x-input-error :messages="$errors->get('meter')" class="mt-2" />
-            </div>
-
-            <!-- Meter PIN -->
-            <div class="mt-4">
-                <x-input-label for="PIN" :value="__('Meter PIN')" />
-                <x-text-input id="PIN" class="block mt-1 w-full" type="text" name="PIN" :value="old ('PIN')" autofocus />
-
-            </div>
-
-        </div>
-
         <!-- Email form -->
         <div x-show="emailForm">
             <!-- Email Address -->
-            {{-- <div class="mt-4">
+            <div class="mt-4">
                 <x-input-label for="email" :value="__('Email')" />
                 <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
                     required autocomplete="username" />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            </div>
+            <!-- Username -->
+            <div class="mt-4">
+                <x-input-label for="username" :value="__('Username')" />
+                <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')"
+                    required autocomplete="username" />
+                <x-input-error :messages="$errors->get('username')" class="mt-2" />
             </div>
 
             <!-- Password -->
@@ -101,7 +116,6 @@
 
                 <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
                     autocomplete="new-password" />
-
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
@@ -113,7 +127,7 @@
                     name="password_confirmation" required autocomplete="new-password" />
 
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div> --}}
+            </div>
 
             <!-- Button Register -->
             <div class="flex items-center justify-end mt-4">
@@ -126,7 +140,11 @@
                     {{ __('Register') }}
                 </x-primary-button>
             </div>
+
         </div>
+
+
+
 
 
 
