@@ -1,4 +1,3 @@
-
 <x-guest-layout x-data="{ personalForm: true, addressForm: false, meterForm: false, emailForm: false }">
 
     <form method="POST" action="{{ route('register') }}">
@@ -9,32 +8,32 @@
             <div>
                 <x-input-label for="fname" :value="__('First Name')" />
                 <x-text-input id="fname" class="block mt-1 w-full" type="text" name="fname" :value="old('fname')"
-                    required autofocus autocomplete="given-name" />
+                    autofocus autocomplete="given-name" />
                 <x-input-error :messages="$errors->get('fname')" class="mt-2" />
             </div>
             <!-- Middle Name -->
             <div class="mt-4">
                 <x-input-label for="mname" :value="__('Middle Name')" />
                 <x-text-input id="mname" class="block mt-1 w-full" type="text" name="mname" :value="old('mname')"
-                    required autofocus autocomplete="additional-name" />
+                    autofocus autocomplete="additional-name" />
                 <x-input-error :messages="$errors->get('mname')" class="mt-2" />
             </div>
             <!-- Last Name -->
             <div class="mt-4">
                 <x-input-label for="lname" :value="__('Last Name')" />
                 <x-text-input id="lname" class="block mt-1 w-full" type="text" name="lname" :value="old('lname')"
-                    required autofocus autocomplete="family-name" />
+                    autofocus autocomplete="family-name" />
                 <x-input-error :messages="$errors->get('lname')" class="mt-2" />
             </div>
             <!-- Phone Number -->
             <div class="mt-4">
                 <x-input-label for="phone" :value="__('Phone Number')" />
                 <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')"
-                    required autofocus autocomplete="tel" />
+                    autofocus autocomplete="tel" />
                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
             </div>
             <!-- Button next -->
-            
+
         </div>
 
         <!-- Address form -->
@@ -68,14 +67,28 @@
         </div>
 
         <!-- Meter form -->
-        <div>
+        <div x-show="meterForm">
+            <!-- Meter Number -->
+            <div class="mt-4">
+                <x-input-label for="MID" :value="__('Meter Number')" />
+                <x-text-input id="MID" class="block mt-1 w-full" type="text" name="MID" :value="old('MID')"
+                    autofocus />
+                <x-input-error :messages="$errors->get('meter')" class="mt-2" />
+            </div>
+
+            <!-- Meter PIN -->
+            <div class="mt-4">
+                <x-input-label for="PIN" :value="__('Meter PIN')" />
+                <x-text-input id="PIN" class="block mt-1 w-full" type="text" name="PIN" :value="old ('PIN')" autofocus />
+
+            </div>
 
         </div>
 
         <!-- Email form -->
         <div x-show="emailForm">
             <!-- Email Address -->
-            <div class="mt-4">
+            {{-- <div class="mt-4">
                 <x-input-label for="email" :value="__('Email')" />
                 <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
                     required autocomplete="username" />
@@ -100,13 +113,15 @@
                     name="password_confirmation" required autocomplete="new-password" />
 
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
+            </div> --}}
+
+            <!-- Button Register -->
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
-    
+
                 <x-primary-button class="ms-4">
                     {{ __('Register') }}
                 </x-primary-button>
@@ -114,7 +129,7 @@
         </div>
 
 
-        
+
 
     </form>
 
